@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Face Recognition Camera</title>
+
+    <style>
+
+        body{
+            font-family:Arial;
+            background:#f5f5f5;
+            text-align:center;
+        }
+
+        h1{
+            margin-top:30px;
+        }
+
+        video{
+            width:700px;
+            border-radius:15px;
+            margin-top:20px;
+            box-shadow:0 0 10px rgba(0,0,0,.2);
+        }
+
+        button{
+
+            margin-top:20px;
+            padding:12px 30px;
+            font-size:18px;
+            border:none;
+            border-radius:8px;
+            background:#2563eb;
+            color:white;
+            cursor:pointer;
+
+        }
+
+        button:hover{
+
+            background:#1d4ed8;
+
+        }
+
+        #result{
+
+            margin-top:25px;
+            font-size:28px;
+            color:green;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Face Recognition Camera</h1>
+
+<video id="video" autoplay playsinline></video>
+
+<canvas
+    id="canvas"
+    width="640"
+    height="480"
+    style="display:none;"
+></canvas>
+
+<br>
+
+<button onclick="startCamera()">
+    Start Camera
+</button>
+
+<h2 id="result">
+    Detected : Waiting...
+</h2>
+
+<script>
+
+const video=document.getElementById("video");
+const canvas=document.getElementById("canvas");
+
+let started=false;
+
+async function startCamera(){
+
+    if(started)
+        return;
+
+    started=true;
+
+    const stream=await navigator.mediaDevices.getUserMedia({
+        video:true
+    });
+
+    video.srcObject=stream;
+
+    setInterval(sendFrame,1000);
+
+}
+
+async function sendFrame(){
+
+    const ctx=canvas.getContext("2d");
+
+    ctx.drawImage(video,0,0,640,480);
+
+    const image=canvas.toDataURL("image/jpeg");
+
+    try{
+
+        const response=await fetch("/recognize-frame",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                image:image
+            })
+
+        });
+
+        const data=await response.json();
+
+        document.getElementById("result").innerHTML=
+            "Detected : " + data.name;
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
