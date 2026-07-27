@@ -1,14 +1,20 @@
 import os
 import shutil
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
-from reportlab.lib import colors
-from flask import send_file
-from openpyxl import Workbook
+import base64
+import numpy as np
+import cv2
 import sqlite3
-from datetime import datetime
-from flask import Flask, render_template, redirect, request, flash, session
 import subprocess
 import sys
+
+from recognize_api import recognize_face
+
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+from reportlab.lib import colors
+from flask import Flask, render_template, redirect, request, flash, session, jsonify, send_file
+from openpyxl import Workbook
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "face_attendance_secret"
@@ -414,21 +420,56 @@ def start_camera():
 
     camera_status = "Running"
 
-    subprocess.Popen([
-        sys.executable,
-        "recognize.py"
-    ])
+    return redirect("/camera")
 
-    return redirect("/")
 
+# ==========================
+# Camera Page
+# ==========================
+@app.route("/camera")
+def camera():
+    return render_template("camera.html")
+
+
+@app.route("/recognize-frame", methods=["POST"])
+def recognize_frame():
+
+    data = request.get_json()
+
+    image = data["image"]
+
+    # Remove the Base64 header
+    image = image.split(",")[1]
+
+    # Decode Base64 to bytes
+    image_bytes = base64.b64decode(image)
+
+    # Convert bytes to NumPy array
+    np_arr = np.frombuffer(image_bytes, np.uint8)
+
+    # Convert to OpenCV image
+    frame = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+    # Run face recognition
+    name = recognize_face(frame)
+
+    return jsonify({
+        "name": name
+    })
+
+# ==========================
+# Logout
+# ==========================
 @app.route("/logout")
 def logout():
 
     session.clear()
 
     return redirect("/login")
+
+
 # ==========================
 # Run Flask
 # ==========================
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(debug=True)
