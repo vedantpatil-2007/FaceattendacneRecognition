@@ -1,0 +1,238 @@
+/* ==========================
+   Global
+========================== */
+
+body{
+    background:#eef2f7;
+    font-family:Arial, Helvetica, sans-serif;
+    margin:0;
+}
+
+/* ==========================
+   Sidebar
+========================== */
+
+.sidebar{
+
+    min-height:100vh;
+
+    background:#1e293b;
+
+    padding-top:20px;
+
+    box-shadow:4px 0 12px rgba(0,0,0,.15);
+    
+
+}
+
+
+.sidebar h3{
+
+    color:white;
+
+    text-align:center;
+
+    margin-bottom:50px;
+
+    font-size:22px;
+
+    font-weight:bold;
+}
+
+.sidebar a{
+
+    display:block;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:15px 25px;
+
+    font-size:18px;
+
+    border-radius:10px;
+
+    margin:6px 10px;
+
+    transition:.3s;
+    .sidebar a{
+
+    display:block;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:15px 25px;
+
+    font-size:18px;
+
+    border-radius:10px;
+
+    margin:6px 10px;
+
+    transition:.3s;
+
+    white-space: nowrap;
+
+}
+}
+
+.sidebar a i{
+
+    width:28px;
+
+    text-align:center;
+
+    margin-right:10px;
+}
+
+.sidebar a:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+    transform:translateX(6px);
+}
+
+/* ==========================
+   Dashboard Cards
+========================== */
+
+.dashboard-card{
+
+    border:none;
+
+    border-radius:18px;
+
+    transition:.3s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 35px rgba(0,0,0,.18);
+}
+
+.card-body{
+
+    padding:35px;
+}
+
+/* Card Icons */
+
+.dashboard-card i{
+
+    margin-bottom:18px;
+}
+
+/* Numbers */
+
+.dashboard-card h2{
+
+    font-size:52px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+}
+
+/* Card Text */
+
+.dashboard-card p{
+
+    font-size:18px;
+
+    margin:0;
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.btn{
+
+    border-radius:10px;
+
+    padding:12px 35px;
+
+    transition:.3s;
+}
+
+.btn:hover{
+
+    transform:translateY(-2px);
+}
+
+/* Bell Button */
+
+.btn-light{
+
+    width:65px;
+
+    height:65px;
+
+    padding:0;
+}
+
+/* ==========================
+   Date & Time
+========================== */
+
+#currentDate{
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+#currentTime{
+
+    font-size:18px;
+
+    font-weight:bold;
+}
+
+/* ==========================
+   Tables
+========================== */
+
+.table{
+
+    font-size:18px;
+}
+
+.table thead{
+
+    font-weight:bold;
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media(max-width:768px){
+
+    .sidebar{
+
+        min-height:auto;
+    }
+
+    .dashboard-card{
+
+        margin-bottom:20px;
+    }
+
+    .btn-light{
+
+        width:55px;
+
+        height:55px;
+    }
+
+}

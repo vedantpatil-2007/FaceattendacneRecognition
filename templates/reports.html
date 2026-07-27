@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Reports</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <h2 class="fw-bold">
+
+            <i class="fa-solid fa-chart-column text-primary"></i>
+
+            Reports Dashboard
+
+        </h2>
+
+        <a href="/" class="btn btn-primary">
+
+            <i class="fa-solid fa-house"></i>
+
+            Dashboard
+
+        </a>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-users fa-3x text-primary mb-3"></i>
+
+                    <h2>{{ total_students }}</h2>
+
+                    <p>Total Students</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-calendar-check fa-3x text-success mb-3"></i>
+
+                    <h2>{{ today_attendance }}</h2>
+
+                    <p>Today's Attendance</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-percent fa-3x text-warning mb-3"></i>
+
+                    <h2>{{ percentage }}%</h2>
+
+                    <p>Attendance %</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <i class="fa-solid fa-calendar-day fa-3x text-danger mb-3"></i>
+
+                    <h5>{{ today }}</h5>
+
+                    <p>Today's Date</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row mt-5">
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+
+                    Attendance Overview
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="barChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-success text-white">
+
+                    Students vs Attendance
+
+                </div>
+
+                <div class="card-body">
+
+                    <canvas id="pieChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+
+        <a href="/export-pdf" class="btn btn-danger me-2">
+
+            <i class="fa-solid fa-file-pdf"></i>
+
+            Export PDF
+
+        </a>
+
+        <a href="/export-excel" class="btn btn-success">
+
+            <i class="fa-solid fa-file-excel"></i>
+
+            Export Excel
+
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+new Chart(document.getElementById("barChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["Students","Today's Attendance"],
+
+datasets:[{
+
+label:"Count",
+
+data:[{{ total_students }},{{ today_attendance }}],
+
+backgroundColor:["#0d6efd","#198754"]
+
+}]
+
+}
+
+});
+
+new Chart(document.getElementById("pieChart"),{
+
+type:"pie",
+
+data:{
+
+labels:["Present","Absent"],
+
+datasets:[{
+
+data:[
+
+{{ today_attendance }},
+
+{{ total_students-today_attendance }}
+
+],
+
+backgroundColor:[
+
+"#198754",
+
+"#dc3545"
+
+]
+
+}]
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
